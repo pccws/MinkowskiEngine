@@ -18,14 +18,32 @@ For CUDA 11.3 + Pytorch 1.12.0 + GCC-8
 conda create -n pcgcs python=3.7
 conda activate pcgcs
 
-pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
-pip3 install torch ninja
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+pip install ninja
+pip install open3d
 
 export CC=/usr/bin/gcc-8
 export CXX=/usr/bin/g++-8
 
 conda install openblas-devel -c anaconda
-pip3 install -U git+https://github.com/pccws/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
+pip install -U git+https://github.com/pccws/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
+```
+
+For CUDA 11.6 + Pytorch 1.12.0 + GCC-8
+
+```bash
+conda create -n pcgcs python=3.7
+conda activate pcgcs
+
+pip install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu116
+pip install ninja
+pip install open3d
+
+export CC=/usr/bin/gcc-8
+export CXX=/usr/bin/g++-8
+
+conda install openblas-devel -c anaconda
+pip install -U git+https://github.com/pccws/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
 ```
 
 ## News
