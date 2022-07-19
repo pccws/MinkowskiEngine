@@ -10,6 +10,24 @@
 
 The Minkowski Engine is an auto-differentiation library for sparse tensors. It supports all standard neural network layers such as convolution, pooling, unpooling, and broadcasting operations for sparse tensors. For more information, please visit [the documentation page](http://nvidia.github.io/MinkowskiEngine/overview.html).
 
+## Script
+
+For CUDA 11.3 + Pytorch 1.12.0 + GCC-8
+
+```bash
+conda create -n pcgcs python=3.7
+conda activate pcgcs
+
+pip3 install torch torchvision torchaudio --extra-index-url https://download.pytorch.org/whl/cu113
+pip3 install torch ninja
+
+export CC=/usr/bin/gcc-8
+export CXX=/usr/bin/g++-8
+
+conda install openblas-devel -c anaconda
+pip3 install -U git+https://github.com/pccws/MinkowskiEngine -v --no-deps --install-option="--blas_include_dirs=${CONDA_PREFIX}/include" --install-option="--blas=openblas"
+```
+
 ## News
 
 - 2021-08-11 Docker installation instruction added
