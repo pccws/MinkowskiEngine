@@ -33,12 +33,13 @@ jobs:
       - name: Setup conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          auto-update-conda: true
+          activate-environment: mink
+          environment-file: .github/environment.yml
+          auto-activate-base: false
 
       - name: Build
+        shell: bash -el {0}
         run: |
-          conda env create --name mink --file=${{github.workspace}}/.github/environment.yml
-          conda activate mink
           conda info
           conda list
           cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
