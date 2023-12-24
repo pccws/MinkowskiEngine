@@ -14,7 +14,6 @@ dependencies:
   # open3d 0.16.0 requires python<3.10, open3d 0.16.1+ requires python<3.11
   # see also https://pypi.org/project/open3d/#history
   - python<3.11
-  - pytorch::pytorch=2.*
   # If you have installed the cuda, change this version
   - pytorch-cuda=CUDA_VERSION
   # comment this if you have installed cuda {{{
@@ -25,3 +24,7 @@ dependencies:
   # To compile MinkowskiEngine
   - gcc=GCC_VERSION
   - gxx=GCC_VERSION
+  - pip
+  - pip:
+    - --index-url https://download.pytorch.org/whl/cuCUDA_VERSION_SHORT
+    - pytorch
