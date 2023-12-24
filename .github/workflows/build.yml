@@ -13,8 +13,8 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # see https://github.com/Jimver/cuda-toolkit/blob/master/src/links/linux-links.ts
-        cuda_version: [12.1, 11.7]
-        gcc_version: [8, 10]
+        cuda_version: [11.7]
+        gcc_version: [8, 9, 10]
 
     runs-on: ${{matrix.os}}
 
@@ -30,7 +30,7 @@ jobs:
           sed -i 's/GCC_VERSION/${{matrix.gcc_version}}/g' ${{github.workspace}}/.github/environment.yml
           cat ${{github.workspace}}/.github/environment.yml
 
-      - name: Setup conda envirionment
+      - name: Setup conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: mink
@@ -39,4 +39,4 @@ jobs:
 
       - name: Build
         run: |
-          cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
+          conda activate mink && cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
