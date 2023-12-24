@@ -34,8 +34,7 @@ jobs:
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: mink
-          environment-file: ${{github.workspace}}/.github/workflows/environment.yml
-          python-version: 3.10
+          environment-file: .github/workflows/environment.yml
           auto-activate-base: false
 
       - name: Build
