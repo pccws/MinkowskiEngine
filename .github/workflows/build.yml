@@ -13,11 +13,11 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # see https://github.com/Jimver/cuda-toolkit/blob/master/src/links/linux-links.ts
-        python-version: [3.10]
+        python-version: ["3.10"]
         gcc_version: [8, 9, 10]
         include:
-          - cuda_version: 11.7
-            cuda_short_version: 117
+          - cuda_version: "11.7"
+            cuda_short_version: "117"
 
     runs-on: ${{matrix.os}}
 
