@@ -39,4 +39,4 @@ jobs:
 
       - name: Build
         run: |
-          conda activate mink && cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
+          cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda

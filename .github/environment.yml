@@ -5,7 +5,7 @@
 # Usage:
 # conda env create --name envname --file=environments.yml
 
-name: cyl_pcc
+name: mink
 channels:
   - conda-forge
   - nvidia
