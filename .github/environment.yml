@@ -8,6 +8,7 @@
 name: mink
 channels:
   - conda-forge
+  - pytorch
   - nvidia
   - defaults
 dependencies:
@@ -15,6 +16,7 @@ dependencies:
   # see also https://pypi.org/project/open3d/#history
   - python<3.11
   # If you have installed the cuda, change this version
+  - pytorch
   - pytorch-cuda=CUDA_VERSION
   # comment this if you have installed cuda {{{
   - conda-forge::cudatoolkit=CUDA_VERSION
@@ -27,4 +29,4 @@ dependencies:
   - pip
   - pip:
     - --index-url https://download.pytorch.org/whl/cuCUDA_VERSION_SHORT
-    - pytorch
+    - torch
