@@ -13,7 +13,7 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # see https://github.com/Jimver/cuda-toolkit/blob/master/src/links/linux-links.ts
-        cuda_version: [12.2.0, 12.1.0, 12.0.1, 11.8.0, 11.7.1]
+        cuda_version: [12.1.0, 11.7.1]
         gcc_version: [8, 10]
 
     runs-on: ${{matrix.os}}
@@ -36,4 +36,4 @@ jobs:
           auto-activate-base: false
 
       - name: Install python package
-        run: source .github/workflows/install_py_pkg.sh ${{matrix.cuda_version}} ${{matrix.gcc_version}}
+        run: source .github/workflows/install_py_pkg.sh ${{ github.workspace }} ${{matrix.cuda_version}} ${{matrix.gcc_version}}
