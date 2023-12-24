@@ -6,14 +6,14 @@ on:
   push:
 
 jobs:
-  Build-TMC13:
+  Build-MinkowskiEngine:
     # see also https://github.com/actions/starter-workflows/blob/main/ci/cmake-multi-platform.yml
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
         # see https://github.com/Jimver/cuda-toolkit/blob/master/src/links/linux-links.ts
-        cuda_version: [12.1.0, 11.7.1]
+        cuda_version: [12.1, 11.7]
         gcc_version: [8, 10]
 
     runs-on: ${{matrix.os}}
@@ -24,16 +24,20 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Setup cuda
-        uses: Jimver/cuda-toolkit@v0.2.11
-        id: cuda-toolkit
-        with:
-          cuda: ${{matrix.cuda_version}}
+      - name: Prepare conda environment file
+        run: |
+          sed -i 's/CUDA_VERSION/${{matrix.cuda_version}}/g' ${{github.workspace}}/.github/workflows/environment.yml
+          sed -i 's/GCC_VERSION/${{matrix.gcc_version}}/g' ${{github.workspace}}/.github/workflows/environment.yml
+          cat ${{github.workspace}}/.github/workflows/environment.yml
 
       - name: Setup conda envirionment
         uses: conda-incubator/setup-miniconda@v3
         with:
+          activate-environment: mink
+          environment-file: ${{github.workspace}}/.github/workflows/environment.yml
+          python-version: 3.10
           auto-activate-base: false
 
-      - name: Install python package
-        run: source .github/workflows/install_py_pkg.sh ${{ github.workspace }} ${{matrix.cuda_version}} ${{matrix.gcc_version}}
+      - name: Build
+        run: |
+          cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda

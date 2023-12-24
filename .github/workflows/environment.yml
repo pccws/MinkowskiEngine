@@ -1,0 +1,27 @@
+# See also
+# https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#create-env-file-manually
+# See also
+# https://docs.conda.io/projects/conda-build/en/latest/resources/package-spec.html#package-match-specifications
+# Usage:
+# conda env create --name envname --file=environments.yml
+
+name: cyl_pcc
+channels:
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  # open3d 0.16.0 requires python<3.10, open3d 0.16.1+ requires python<3.11
+  # see also https://pypi.org/project/open3d/#history
+  - python<3.11
+  - pytorch::pytorch=2.*
+  # If you have installed the cuda, change this version
+  - pytorch-cuda=CUDA_VERSION
+  # comment this if you have installed cuda {{{
+  - conda-forge::cudatoolkit=CUDA_VERSION
+  - conda-forge::cudatoolkit-dev=CUDA_VERSION
+  # }}}
+  - anaconda::openblas-devel
+  # To compile MinkowskiEngine
+  - gcc=GCC_VERSION
+  - gxx=GCC_VERSION
