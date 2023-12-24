@@ -35,8 +35,9 @@ jobs:
         with:
           activate-environment: mink
           environment-file: .github/environment.yml
-          auto-activate-base: false
 
       - name: Build
         run: |
+          conda info
+          conda list
           cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
