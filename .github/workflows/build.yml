@@ -13,17 +13,11 @@ jobs:
       matrix:
         os: [ubuntu-latest]
         # see https://github.com/Jimver/cuda-toolkit/blob/master/src/links/linux-links.ts
+        python-version: [3.10]
+        gcc_version: [8, 9, 10]
         include:
           - cuda_version: 11.7
-            cuda_version_short: 117
-            gcc_version: 8
-          - cuda_version: 11.7
-            cuda_version_short: 117
-            gcc_version: 9
-          - cuda_version: 11.7
-            cuda_version_short: 117
-            gcc_version: 10
-             
+            cuda_short_version: 117
 
     runs-on: ${{matrix.os}}
 
@@ -33,23 +27,22 @@ jobs:
         with:
           submodules: recursive
 
-      - name: Prepare conda environment file
-        run: |
-          sed -i 's/CUDA_VERSION/${{matrix.cuda_version}}/g' ${{github.workspace}}/.github/environment.yml
-          sed -i 's/GCC_VERSION/${{matrix.gcc_version}}/g' ${{github.workspace}}/.github/environment.yml
-          sed -i 's/CUDA_VERSION_SHORT/${{matrix.cuda_version_short}}/g' ${{github.workspace}}/.github/environment.yml
-          cat ${{github.workspace}}/.github/environment.yml
-
       - name: Setup conda environment
         uses: conda-incubator/setup-miniconda@v3
         with:
-          activate-environment: mink
-          environment-file: .github/environment.yml
-          auto-activate-base: false
+          python-version: ${{matrix.python-version}}
+
+      - name: Manually install conda pacakges
+        shell: bash -el {0}
+        run: |
+          pip install torch --index-url https://download.pytorch.org/whl/cu${{matrix.cuda_short_version}}
+          conda install -y cudatoolkit=${{matrix.cuda_version}} pytorch-cuda=${{matrix.cuda_version}} -c pytorch -c nvidia
+          conda install -y -c conda-forge cudatoolkit-dev=${{matrix.cuda_version}} gcc=${{matrix.gcc_version}} gxx=${{matrix.gcc_version}}
+          conda install -y -c anaconda openblas-devel
+          conda info
+          conda list
 
       - name: Build
         shell: bash -el {0}
         run: |
-          conda info
-          conda list
           cd ${{github.workspace}} && python setup.py install '--blas_include_dirs=${CONDA_PREFIX}/include' --blas=openblas --force_cuda
