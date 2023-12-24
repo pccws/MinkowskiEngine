@@ -26,15 +26,15 @@ jobs:
 
       - name: Prepare conda environment file
         run: |
-          sed -i 's/CUDA_VERSION/${{matrix.cuda_version}}/g' ${{github.workspace}}/.github/workflows/environment.yml
-          sed -i 's/GCC_VERSION/${{matrix.gcc_version}}/g' ${{github.workspace}}/.github/workflows/environment.yml
-          cat ${{github.workspace}}/.github/workflows/environment.yml
+          sed -i 's/CUDA_VERSION/${{matrix.cuda_version}}/g' ${{github.workspace}}/.github/environment.yml
+          sed -i 's/GCC_VERSION/${{matrix.gcc_version}}/g' ${{github.workspace}}/.github/environment.yml
+          cat ${{github.workspace}}/.github/environment.yml
 
       - name: Setup conda envirionment
         uses: conda-incubator/setup-miniconda@v3
         with:
           activate-environment: mink
-          environment-file: .github/workflows/environment.yml
+          environment-file: .github/environment.yml
           auto-activate-base: false
 
       - name: Build
